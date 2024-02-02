@@ -36,7 +36,7 @@ async def handleConnect(bot: Bot, msg: types.Message):
                         [
                             [
                                 types.InlineKeyboardButton(
-                                    "✖️ Cancel", callback_data=f"cancel_{msg.id}"
+                                    "✖️ Cancel", callback_data=f"cancel}"
                                 )
                             ]
                         ]
