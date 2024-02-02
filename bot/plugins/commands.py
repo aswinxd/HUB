@@ -1,4 +1,5 @@
 from pyrogram import enums, filters, types
+from pyrogram.types import InlineKeyboardButton
 
 from bot import Bot
 
