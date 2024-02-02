@@ -1,12 +1,10 @@
 from pyrogram import enums, filters, types
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram.types import InlineKeyboardMarkup
 from pyrogram.types import CallbackQuery
 
 from bot import Bot
 from ..config import Config
 from ..utils.decorators import is_banned
-
 
 START_TEXT = """Hey {mention} 👋
 restart the bot /start 
@@ -70,7 +68,6 @@ You can use these to mention a user in notes too!
 - <code>{chatname}</code>: The chat's name.
 """
 
-
 @Bot.on_message(filters.command("start") & filters.incoming)
 @is_banned
 async def start_handler(_: Bot, msg: types.Message):
@@ -116,6 +113,23 @@ async def help_callback_handler(bot: Bot, query: CallbackQuery):
         await query.message.delete()
     elif query.data.startswith("button"):
         # Handle button clicks
-        button_number = query.data[6:] 
-        await query.edit_message_text(f"You clicked on {query.data} - Implement your logic here")
+        button_number = query.data[6:]
 
+        if button_number == "1":
+            await query.edit_message_text("You clicked on Button 1 - Explanation")
+            # Implement logic for Button 1 here
+        elif button_number == "2":
+            await query.edit_message_text("You clicked on Button 2 - Advanced Help")
+            # Implement logic for Button 2 here
+        elif button_number == "3":
+            await query.edit_message_text("You clicked on Button 3 - Other Option")
+            # Implement logic for Button 3 here
+        elif button_number == "4":
+            await query.edit_message_text("You clicked on Button 4 - Settings")
+            # Implement logic for Button 4 here
+        elif button_number == "5":
+            await query.edit_message_text("You clicked on Button 5 - Support")
+            # Implement logic for Button 5 here
+        elif button_number == "6":
+            await query.edit_message_text("You clicked on Button 6 - More Info")
+            # Implement logic for Button 6 here
