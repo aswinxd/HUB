@@ -82,8 +82,7 @@ async def start_handler(_: Bot, msg: types.Message):
         START_TEXT.format(mention=msg.from_user.mention),
         reply_markup=start_buttons_markup,
         disable_web_page_preview=True,
-        
-
+    )
 
 @Bot.on_message(filters.command("help") & filters.incoming)
 @is_banned
