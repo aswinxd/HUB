@@ -154,6 +154,22 @@ async def help_callback_handler(bot: Bot, query: CallbackQuery):
         # Handle button clicks
         button_number = query.data[6:]
 
+        # Get the text associated with the button_number
+        button_text = get_button_text(button_number)
+
+        # Display the corresponding submenu
+        await query.edit_message_text(button_text)
+
+        # Add a "Back to Help" button inside the submenu
+        back_button = InlineKeyboardButton("Back to Help", callback_data="back_to_help")
+        reply_markup_inside_menu = InlineKeyboardMarkup([[back_button]])
+
+        await bot.send_message(query.from_user.id, "Choose an additional setting:", reply_markup=reply_markup_inside_menu)
+
+    # Handle "Back to Help" callback
+    elif query.data == "back_to_help":
+        await help_handler(bot, query.message)
+
         if button_number == "1":
             await query.edit_message_text("""Auto-Accept Settings
 1. First, you have to connect the desired channel / group using /connect.
@@ -161,18 +177,7 @@ async def help_callback_handler(bot: Bot, query: CallbackQuery):
 3. Click on any chat to set up auto-accept and auto-delete.
 4. You can set a delay for accepting the requests, which means users will be accepted only after the set delay.
 5. You can also set up a welcome message, which will be sent to the user, once he sends a request to join the channel / group.""")
- back_button = InlineKeyboardButton("Back to Help", callback_data="back_to_help")
-            reply_markup_inside_menu = InlineKeyboardMarkup([[back_button]])
-
-            await bot.send_message(query.from_user.id, "Choose an additional setting:", reply_markup=reply_markup_inside_menu)
-
-        elif button_number == "back_to_help":
-            # Go back to the main help menu
-            await help_handler(bot, query.message)
-        elif button_number == "back_to_help":
-            # Go back to the main help menu
-            await help_handler(bot, query.message)
-
+            
         elif button_number == "2":
             await query.edit_message_text("""<b>Markdown Formatting</b>
 You can format your message using <b>bold</b>, <i>italic</i>, <u>underline</u>, <strike>strike</strike>, and much more. Go ahead and experiment!
