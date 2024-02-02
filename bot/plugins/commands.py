@@ -126,6 +126,11 @@ async def help_handler(_: Bot, msg: types.Message):
         InlineKeyboardButton("Send Broadcast", callback_data="button6"),
         InlineKeyboardButton("Close", callback_data="close"),
     ]
+
+    # Create InlineKeyboardMarkup with 2 buttons per row
+    reply_markup = InlineKeyboardMarkup([callback_buttons[i:i + 2] for i in range(0, len(callback_buttons), 2)])
+
+    # Reply to the message with the help text and callback buttons
     await msg.reply(
         HELP_TEXT,
         reply_markup=reply_markup,
@@ -157,7 +162,8 @@ async def help_callback_handler(bot: Bot, query: CallbackQuery):
     # Handle "Back to Help" callback
     elif query.data == "back_to_help":
         await help_handler(bot, query.message)
-
+        
+def get_button_text(button_number: str) -> str:
         if button_number == "1":
             await query.edit_message_text("""Auto-Accept Settings
 1. First, you have to connect the desired channel / group using /connect.
