@@ -196,5 +196,7 @@ async def cancel_broadcast(_: Bot, query: types.CallbackQuery):
 
 @Bot.on_message(filters.command("stats") & filters.user(Config.SUDO_USERS))  # type: ignore
 async def stats_users(_: Bot, msg: types.Message):
-    count = await usersDB.total_users_count()
-    await msg.reply(f"Total Users {count}")
+    user_count = await usersDB.total_users_count()
+    group_count = await usersDB.total_groups_count()
+
+    await msg.reply(f"Total Users: {user_count}\nTotal Groups: {group_count}")
