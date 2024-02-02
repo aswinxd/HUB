@@ -84,6 +84,16 @@ class UsersDb(MongoDb):
 
     async def update_broadcast_msg(self, user_id: int, msg_id: int):
         await self.col.update_one({"_id": user_id}, {"$set": {"last_broadcast_msg_id": msg_id}})  # type: ignore
+    async def total_groups_count(self):
+        pipeline = [
+            {"$match": {"blocked": False, "last_broadcast_id": {"$exists": True}}},
+            {"$group": {"_id": "$last_broadcast_id"}},
+            {"$count": "total_groups"}
+        ]
 
+        result = await self.col.aggregate(pipeline).next()  # type: ignore
+        return result.get("total_groups", 0)
 
 usersDB = UsersDb()
+
+
