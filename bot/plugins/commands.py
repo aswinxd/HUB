@@ -63,6 +63,56 @@ async def start_handler(_: Bot, msg: types.Message):
         disable_web_page_preview=True,
     )
 
+@Bot.on_callback_query(filters.regex("bothelp"))  # type: ignore
+async def help_handler_query(_: Bot, query: types.CallbackQuery):
+    await query.answer()
+    await query.edit_message_text(
+        HELP_TEXT,
+        reply_markup=types.InlineKeyboardMarkup(
+            [
+                [
+                    types.InlineKeyboardButton("◀️ Back", callback_data="back"),
+                    types.InlineKeyboardButton("📘 Advanced Help", "advHelp"),
+                ]
+            ]
+        ),
+    )
+
+
+@Bot.on_callback_query(filters.regex("advHelp"))  # type: ignore
+async def adv_handler_query(_: Bot, query: types.CallbackQuery):
+    await query.edit_message_text(
+        FORMAT,
+        reply_markup=types.InlineKeyboardMarkup(
+            [
+                [
+                    types.InlineKeyboardButton("◀️ Back", callback_data="back"),
+                ]
+            ]
+        ),
+        parse_mode=enums.ParseMode.HTML,
+    )
+
+
+@Bot.on_callback_query(filters.regex("help"))  # type: ignore
+async def home_handler(_: Bot, query: types.CallbackQuery):
+    await query.answer()
+    await query.edit_message_text(
+        START_TEXT.format(mention=query.from_user.mention),
+        reply_markup=types.InlineKeyboardMarkup(
+            [
+                [
+                    types.InlineKeyboardButton("🔖 Help", callback_data=f"back"),
+                    types.InlineKeyboardButton(
+                        "🔗 Support", url=Config.SUPPORT_CHAT_URL
+                    ),
+                ]
+            ]
+        ),
+        disable_web_page_preview=True,
+    )
+
+
 @Bot.on_message(filters.command("help") & filters.incoming)
 @is_banned
 async def help_handler(_: Bot, msg: types.Message):
