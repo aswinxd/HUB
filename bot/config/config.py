@@ -17,4 +17,3 @@ class Config:
   LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", -1002049466903))
   SUDO_USERS = [int(user) for user in (os.environ.get("SUDO_USERS","1137799257")).split()]
   SUPPORT_CHAT_URL = os.environ.get("SUPPORT_CHAT_URL", "https://t.me/subotsupport")
-~
