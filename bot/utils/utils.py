@@ -81,7 +81,7 @@ async def checkChatMember(bot: Bot, message: types.Message):
             [
                 [
                     types.InlineKeyboardButton(
-                        "Join Update Channel", url="https://t.me/subin_works"
+                        "Join Update Channel", url="https://t.me/xenonbots"
                     )
                 ]
             ]
