@@ -1,6 +1,8 @@
-from pyrogram import enums, filters, types, CallbackQuery
+from pyrogram import enums, filters, types
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.types import InlineKeyboardMarkup
+from pyrogram.types import CallbackQuery
+
 from bot import Bot
 from ..config import Config
 from ..utils.decorators import is_banned
