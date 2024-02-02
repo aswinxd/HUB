@@ -7,18 +7,18 @@ from ..config import Config
 from ..utils.decorators import is_banned
 
 START_TEXT = """Hey {mention} 👋
-restart the bot /start 
+use /help to open help modules menu
 """
 
 START_BUTTONS = [
     [
         InlineKeyboardButton(
             text="➕ Add Me To Your Groups ➕",
-            url=f"https://t.me/topchatbot?startgroup=true",
+            url=f"https://t.me/ehfhffefehyfyhfyfyfy7?startgroup=true",
         ),
     ],
     [
-        InlineKeyboardButton(text="Bot List? / Updates & Xenon Info", url=f"https://t.me/X1_BOTS/3"),
+        InlineKeyboardButton(text="Bot List?", url=f"https://t.me/X1_BOTS/3"),
     ],
     [
         InlineKeyboardButton(text="News", url=f"https://t.me/Xmusicbots"),
