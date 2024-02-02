@@ -137,19 +137,65 @@ async def home_handler(_: Bot, query: types.CallbackQuery):
     )
 
 
-@Bot.on_message(filters.command("help619") & filters.incoming)  # type: ignore
+HELP_MENU = [
+    [
+        InlineKeyboardButton("Quiz", callback_data='help_button_1'),
+        InlineKeyboardButton("AutoQuiz", callback_data='help_button_2'),
+    ],
+    [
+        InlineKeyboardButton("Ranking", callback_data='help_button_3'),
+        InlineKeyboardButton("Points", callback_data='help_button_4'),
+    ],
+    [
+        InlineKeyboardButton("Language", callback_data='help_button_5'),
+        InlineKeyboardButton("Support", callback_data='help_button_6'),
+    ],
+    [
+        InlineKeyboardButton("Close", callback_data='help_button_close'),
+    ],
+]
+
+@Bot.on_message(filters.command("help") & filters.incoming)
 @is_banned
 async def help_handler(_: Bot, msg: types.Message):
-    await msg.reply(
-        HELP_TEXT,
-        reply_markup=types.InlineKeyboardMarkup(
-            [
-                [
-                    types.InlineKeyboardButton("📘 Advanced Help", "advHelp"),
-                    types.InlineKeyboardButton(
-                        "🔗 Support", url=Config.SUPPORT_CHAT_URL
-                    ),
-                ]
-            ]
-        ),
+    reply_markup = InlineKeyboardMarkup(HELP_MENU)
+    
+    await msg.reply_text(
+        "This is the help menu of the quiz game bot. If you have any doubts, head to the support chat.",
+        reply_markup=reply_markup,
     )
+
+
+@Bot.on_callback_query(filters.regex("^help_button_"))
+async def handle_help_callback(_: Bot, query: types.CallbackQuery):
+    query.answer()
+
+    button_data = query.data
+
+    if button_data == 'help_button_close':
+        await query.delete_message()
+    else:
+        help_text = get_help_text_for_button(button_data)
+
+        await query.edit_message_text(
+            text=help_text,
+            parse_mode='Markdown',
+        )
+
+def get_help_text_for_button(button_data: str) -> str:
+    help_text = "This is the help menu:\n"
+    
+    if button_data == 'help_button_1':
+        help_text += "/quiz - sends quiz to the group/user. The command can be used in groups and inbox of the bot"
+    elif button_data == 'help_button_2':
+        help_text += "/autoquiz - enables periodic quiz that sends 1 in 10 minutes and deletes old quiz poll\n/stopquiz - stops the function on the group or inbox of the bot"
+    elif button_data == 'help_button_3':
+        help_text += "/topusers - shows the global top 10 users who have high points."
+    elif button_data == 'help_button_4':
+        help_text += "/points - shows your total points on the bot based on your answers on polls. You can receive negative or positive points."
+    elif button_data == 'help_button_5':
+        help_text += "Language:\nComing soon! Adding Russian, Arabic, Hindi, French, etc. Other languages will be added as per user request."
+    elif button_data == 'help_button_6':
+        help_text += "Support:\nHead to @XenonSupportChat for more help and to report bugs, and provide ideas about adding new features to the bot."
+
+    return help_text
