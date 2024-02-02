@@ -7,9 +7,26 @@ from bot import Bot
 from ..config import Config
 from ..utils.decorators import is_banned
 
+
 START_TEXT = """Hey {mention} 👋
 restart the bot /start 
 """
+
+START_BUTTONS = [
+    [
+        InlineKeyboardButton(
+            text="➕ Add Me To Your Groups ➕",
+            url=f"https://t.me/Quizplaybot?startgroup=true",
+        ),
+    ],
+    [
+        InlineKeyboardButton(text="❓ Bot List? / Updates & Xenon Info", url=f"https://t.me/X1_BOTS/3"),
+    ],
+    [
+        InlineKeyboardButton(text="❔ News", url=f"https://t.me/Xmusicbots"),
+        InlineKeyboardButton(text="👥 Support", url=f"https://t.me/XenonBots"),
+    ],
+]
 
 HELP_TEXT = """
 **Available Commands and Explanation**
@@ -53,70 +70,20 @@ You can use these to mention a user in notes too!
 - <code>{chatname}</code>: The chat's name.
 """
 
+
 @Bot.on_message(filters.command("start") & filters.incoming)
 @is_banned
 async def start_handler(_: Bot, msg: types.Message):
+    # Create InlineKeyboardMarkup with the start buttons
+    start_buttons_markup = InlineKeyboardMarkup(START_BUTTONS)
+
+    # Reply to the message with the start text and buttons
     await msg.reply(
         START_TEXT.format(mention=msg.from_user.mention),
-        reply_markup=types.InlineKeyboardMarkup(
-            [
-                [
-                    types.InlineKeyboardButton("🔖 Help", callback_data="fallen_"),
-                    types.InlineKeyboardButton(
-                        "🔗 Support", url=Config.SUPPORT_CHAT_URL
-                    ),
-                ]
-            ]
-        ),
+        reply_markup=start_buttons_markup,
         disable_web_page_preview=True,
-    )
+        
 
-@Bot.on_callback_query(filters.regex("bothelp"))
-async def help_handler_query(_: Bot, query: types.CallbackQuery):
-    await query.answer()
-    await query.edit_message_text(
-        HELP_TEXT,
-        reply_markup=types.InlineKeyboardMarkup(
-            [
-                [
-                    types.InlineKeyboardButton("◀️ Back", callback_data="fallen_back"),
-                    types.InlineKeyboardButton("📘 Advanced Help", callback_data="advHelp"),
-                ]
-            ]
-        ),
-    )
-
-@Bot.on_callback_query(filters.regex("advHelp"))
-async def adv_handler_query(_: Bot, query: types.CallbackQuery):
-    await query.edit_message_text(
-        FORMAT,
-        reply_markup=types.InlineKeyboardMarkup(
-            [
-                [
-                    types.InlineKeyboardButton("◀️ Back", callback_data="fallen_"),
-                ]
-            ]
-        ),
-        parse_mode=enums.ParseMode.HTML,
-    )
-
-@Bot.on_callback_query(filters.regex("hennhdlp"))
-async def home_handler(_: Bot, query: types.CallbackQuery):
-    await query.answer()
-    await query.edit_message_text(
-        START_TEXT.format(mention=query.from_user.mention),
-        reply_markup=types.InlineKeyboardMarkup(
-            [
-                [
-                    types.InlineKeyboardButton("🔖 Help", callback_data="fallen_"),
-                    types.InlineKeyboardButton(
-                        "🔗 Support", url=Config.SUPPORT_CHAT_URL
-                    ),
-                ]
-            ]
-        ),
-        disable_web_page_preview=True,
-    )
 
 @Bot.on_message(filters.command("help") & filters.incoming)
 @is_banned
@@ -150,7 +117,6 @@ async def help_callback_handler(bot: Bot, query: CallbackQuery):
         await query.message.delete()
     elif query.data.startswith("button"):
         # Handle button clicks
-        button_number = query.data[6:]  # Extract the button number from the callback data
+        button_number = query.data[6:] 
         await query.edit_message_text(f"You clicked on {query.data} - Implement your logic here")
 
-# ... (other functions)
