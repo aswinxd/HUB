@@ -127,8 +127,15 @@ async def help_handler(_: Bot, msg: types.Message):
         InlineKeyboardButton("Close", callback_data="close"),
     ]
 
+    # Add a "Back to Help" button for every submenu
+    for i in range(len(callback_buttons)):
+        callback_buttons[i] = [
+            callback_buttons[i],
+            InlineKeyboardButton("Back to Help", callback_data="back_to_help"),
+        ]
+
     # Create InlineKeyboardMarkup with 2 buttons per row
-    reply_markup = InlineKeyboardMarkup([callback_buttons[i:i + 2] for i in range(0, len(callback_buttons), 2)])
+    reply_markup = InlineKeyboardMarkup(callback_buttons)
 
     # Reply to the message with the help text and callback buttons
     await msg.reply(
