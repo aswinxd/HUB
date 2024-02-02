@@ -23,7 +23,7 @@ def formatData(data):
     return data
 
 
-@Bot.on_message(filters.command("Pconnect"))  # type: ignore
+@Bot.on_message(filters.command("connect"))  # type: ignore
 @adminOnly(False)
 async def handleConnect(bot: Bot, msg: types.Message):
     chat: types.Chat
