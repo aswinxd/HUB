@@ -120,11 +120,6 @@ async def help_handler(_: Bot, msg: types.Message):
     callback_buttons = [
         InlineKeyboardButton("Auto Approve", callback_data="button1"),
         InlineKeyboardButton("Formatting", callback_data="button2"),
-        InlineKeyboardButton("Auto Delete", callback_data="button3"),
-        InlineKeyboardButton("Connection", callback_data="button4"),
-        InlineKeyboardButton("Chats", callback_data="button5"),
-        InlineKeyboardButton("Send Broadcast", callback_data="button6"),
-        InlineKeyboardButton("Close", callback_data="close"),
     ]
 
     # Create InlineKeyboardMarkup with 2 buttons per row
@@ -153,7 +148,19 @@ async def help_callback_handler(bot: Bot, query: CallbackQuery):
 2. Once the chat is connected with your PM, use /chats to view the connected chats.
 3. Click on any chat to set up auto-accept and auto-delete.
 4. You can set a delay for accepting the requests, which means users will be accepted only after the set delay.
-5. You can also set up a welcome message, which will be sent to the user, once he sends a request to join the channel / group.""")
+5. You can also set up a welcome message, which will be sent to the user, once he sends a request to join the channel / group.
+Auto-Delete Settings
+1. Connect the chat same as above
+2. Use /chats to enter into Auto-Delete settings for specific chats.
+3. You can turn on / off auto-delete using the status button.
+4. You can set delay for deleting the message 
+5. You can also set type of messages to be deleted [text, media or all]
+Connection settings
+/connect - To connect a channel / group for further
+Chats settings
+/chats - Lists the available connected chats 
+"Broadcast chats
+/send - To send messages to connected chats together""")
         elif button_number == "2":
             await query.edit_message_text("""<b>Markdown Formatting</b>
 You can format your message using <b>bold</b>, <i>italic</i>, <u>underline</u>, <strike>strike</strike>, and much more. Go ahead and experiment!
@@ -172,26 +179,4 @@ You can use these to mention a user in notes too!
 - <code>{mention}</code>: Mentions the user with their firstname.
 - <code>{id}</code>: The user's ID.
 - <code>{chatname}</code>: The chat's name.""")
-            # Implement logic for Button 2 here
-        elif button_number == "3":
-            await query.edit_message_text("""Auto-Delete Settings
-1. Connect the chat same as above
-2. Use /chats to enter into Auto-Delete settings for specific chats.
-3. You can turn on / off auto-delete using the status button.
-4. You can set delay for deleting the message 
-5. You can also set type of messages to be deleted [text, media or all]""")
-            # Implement logic for Button 3 here
-        elif button_number == "4":
-            await query.edit_message_text("""Connection settings
-/connect - To connect a channel / group for further """)
-            # Implement logic for Button 4 here
-        elif button_number == "5":
-            await query.edit_message_text("""Chats settings
-/chats - Lists the available connected chats""")
-            # Implement logic for Button 5 here
-        elif button_number == "6":
-            await query.edit_message_text("""Broadcast chats
-/send - To send messages to connected chats together""")
-            # Implement logic for Button 6 here
-
-
+         
