@@ -1,6 +1,5 @@
-from pyrogram import filters, types
+from pyrogram import filters, types, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
-from pyrogram import enums
 
 from bot import Bot
 from ..config import Config
@@ -128,6 +127,12 @@ async def adv_handler_query(_: Bot, query: CallbackQuery):
     )
 
 
+@Bot.on_callback_query(filters.regex("back_home"))  # type: ignore
+async def back_home_handler(_: Bot, query: CallbackQuery):
+    await query.answer()
+    await start_handler(_, query.message)
+
+
 @Bot.on_message(filters.command("help") & filters.incoming)  # type: ignore
 @is_banned
 async def help_handler(_: Bot, msg: types.Message):
@@ -144,4 +149,3 @@ async def help_handler(_: Bot, msg: types.Message):
             ]
         ),
     )
-
