@@ -11,7 +11,7 @@ class Config:
   API_ID = int(os.environ.get("API_ID", "12799559"))
   API_HASH = os.environ.get("API_HASH", "077254e69d93d08357f25bb5f4504580")
 
-  DATABASE_URI = os.environ.get("DATABASE_URI", "mongodb+srv://bot:bot@cluster0.8vepzds.mongodb.net/?retryWrites=true&w=majority")
+  DATABASE_URI = os.environ.get("DATABASE_URI", "mongodb+srv://file2link:file2linkcluster0.jvfdegj.mongodb.net/?retryWrites=true&w=majority")
   SESSION_NAME = os.environ.get("DATABASE_NAME", "Aleena")
 
   LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", -1001931553423))
