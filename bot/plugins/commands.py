@@ -84,7 +84,7 @@ async def start_handler(_: Bot, msg: types.Message):
                 ],
                 [
                     InlineKeyboardButton(
-                        "❓How to use? / Commands Help", callback_data="help"
+                        "❓How to use? / Commands Help", callback_data="advhelp"
                     ),
                 ],
                 [
