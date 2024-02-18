@@ -105,7 +105,7 @@ async def help_handler_query(_: Bot, query: CallbackQuery):
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("◀️ Back", callback_data="back"),
+                    InlineKeyboardButton("◀️ Back", callback_data="back_home"),
                     InlineKeyboardButton("📘 Advanced Help", "advHelp"),
                 ]
             ]
@@ -120,30 +120,11 @@ async def adv_handler_query(_: Bot, query: CallbackQuery):
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("◀️ Back", callback_data="back"),
+                    InlineKeyboardButton("◀️ Back", callback_data="back_home"),
                 ]
             ]
         ),
         parse_mode=enums.ParseMode.HTML,
-    )
-
-
-@Bot.on_callback_query(filters.regex("help"))  # type: ignore
-async def home_handler(_: Bot, query: CallbackQuery):
-    await query.answer()
-    await query.edit_message_text(
-        START_TEXT.format(mention=query.from_user.mention),
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton("🔖 Help", callback_data=f"advhelp"),
-                    InlineKeyboardButton(
-                        "🔗 Support", url=Config.SUPPORT_CHAT_URL
-                    ),
-                ]
-            ]
-        ),
-        disable_web_page_preview=True,
     )
 
 
