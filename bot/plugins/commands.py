@@ -136,7 +136,7 @@ async def home_handler(_: Bot, query: CallbackQuery):
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("🔖 Help", callback_data=f"hekp"),
+                    InlineKeyboardButton("🔖 Help", callback_data=f"help"),
                     InlineKeyboardButton(
                         "🔗 Support", url=Config.SUPPORT_CHAT_URL
                     ),
