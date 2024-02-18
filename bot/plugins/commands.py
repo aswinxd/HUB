@@ -105,7 +105,7 @@ async def help_handler_query(_: Bot, query: CallbackQuery):
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("◀️ Back", callback_data="back_home"),
+                    InlineKeyboardButton("◀️ Back", callback_data="back"),
                     InlineKeyboardButton("📘 Advanced Help", "advHelp"),
                 ]
             ]
@@ -120,7 +120,7 @@ async def adv_handler_query(_: Bot, query: CallbackQuery):
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("◀️ Back", callback_data="back_home"),
+                    InlineKeyboardButton("◀️ Back", callback_data="back"),
                 ]
             ]
         ),
