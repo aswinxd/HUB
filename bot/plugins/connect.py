@@ -1,9 +1,6 @@
 import asyncio
-
 from pyrogram import enums, errors, filters, types
-
 from bot import Bot
-
 from ..client.client import ListenerCanceled
 from ..database import conDB
 from ..utils.chatSettings import getSettings, updateSettings
@@ -17,13 +14,13 @@ log = LOGGER(__name__)
 
 def formatData(data):
     if isinstance(data, bool):
-        if data == True:
+        if data:
             return "✅ Enabled"
         return "✖️ Disabled"
     return data
 
 
-@Bot.on_message(filters.command("connect"))  # type: ignore
+@Bot.on_message(filters.command("connect"))
 @adminOnly(False)
 async def handleConnect(bot: Bot, msg: types.Message):
     chat: types.Chat
@@ -95,7 +92,7 @@ async def handleConnect(bot: Bot, msg: types.Message):
     await msg.reply(f"Connected to **{chat.title}**")
 
 
-@Bot.on_callback_query(filters.regex(r"^cancel"))
+@Bot.on_callback_query(filters.regex(r"^cancel_"))
 async def cancelCallBack(bot: Bot, query: types.CallbackQuery):
     if str(query.message.chat.id) in bot.listeners:
         bot.cancel_listener(str(query.message.chat.id))
@@ -134,42 +131,7 @@ async def showConnections(bot: Bot, msg: types.Message):
     )
 
 
-@Bot.on_callback_query(filters.regex(r"^listchats"))
-async def listChatCallBack(bot: Bot, query: types.CallbackQuery):
-    con = await conDB.col.find_one({"userID": query.from_user.id})
-    if not con:
-        return await query.message.edit(
-            "You do not have any chats connected!\nUse /connect to connect a chat."
-        )
-
-    buttons = []
-    for chatType in ["group", "supergroup", "channel"]:
-        chats = con.get(chatType, [])
-        for chat in chats:
-            buttons.append(
-                [
-                    types.InlineKeyboardButton(
-                        chat["title"], callback_data=f"chat:{chat['chatID']}:main"
-                    )
-                ]
-            )
-    buttons.append([types.InlineKeyboardButton("✖️ Close", callback_data="close")])
-    if not buttons:
-        return await query.message.edit(
-            f"You do not have any **chats** connected!\nUse /connect to connect a chat."
-        )
-    await query.message.edit(
-        f"Available **chats** connections!\n",
-        reply_markup=types.InlineKeyboardMarkup(buttons),
-    )
-
-
-@Bot.on_callback_query(filters.regex(r"^close"))
-async def closeCallBack(bot: Bot, query: types.CallbackQuery):
-    return await query.message.delete()
-
-
-@Bot.on_callback_query(filters.regex(r"^chat"))
+@Bot.on_callback_query(filters.regex(r"^chat:"))
 async def chatCallBack(bot: Bot, query: types.CallbackQuery):
     _, chatID, menu = query.data.split(":")  # type: ignore
 
@@ -253,7 +215,7 @@ async def chatCallBack(bot: Bot, query: types.CallbackQuery):
             newTime = int(newTime)
         except Exception as e:
             return await _msg.reply(
-                "Invalid Input!\nExpected a number, received {newTime}"
+                f"Invalid Input!\nExpected a number, received {newTime}"
             )
         settings_ = await updateSettings(int(chatID), main, newTime, sub)
         buttons = buildButtons(settings_, main)
