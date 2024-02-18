@@ -1,13 +1,11 @@
-from pyrogram import enums, filters, types
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram.types import CallbackQuery
-
+from pyrogram import filters, types
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from bot import Bot
 from ..config import Config
 from ..utils.decorators import is_banned
 
 START_TEXT = """Hey {mention} 👋
-use /help to open help modules menu
+Use /help to open the help modules menu.
 """
 
 START_BUTTONS = [
@@ -50,9 +48,9 @@ You can use these to mention a user in notes too!
 - <code>{chatname}</code>: The chat's name.
 """
 
-@Bot.on_message(filters.command("start") & filters.incoming)
+@Bot.on_message(filters.command("start"))
 @is_banned
-async def start_handler(_: Bot, msg: types.Message):
+async def start_handler(bot: Bot, msg: types.Message):
     # Create InlineKeyboardMarkup with the start buttons
     start_buttons_markup = InlineKeyboardMarkup(START_BUTTONS)
 
@@ -63,59 +61,54 @@ async def start_handler(_: Bot, msg: types.Message):
         disable_web_page_preview=True,
     )
 
-@Bot.on_callback_query(filters.regex("bothelp"))  # type: ignore
-async def help_handler_query(_: Bot, query: types.CallbackQuery):
+@Bot.on_callback_query(filters.regex("bothelp"))
+async def help_handler_query(bot: Bot, query: CallbackQuery):
     await query.answer()
     await query.edit_message_text(
         HELP_TEXT,
-        reply_markup=types.InlineKeyboardMarkup(
+        reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    types.InlineKeyboardButton("◀️ Back", callback_data="back"),
-                    types.InlineKeyboardButton("📘 Advanced Help", "advHelp"),
+                    InlineKeyboardButton("◀️ Back", callback_data="back"),
+                    InlineKeyboardButton("📘 Advanced Help", callback_data="advHelp"),
                 ]
             ]
         ),
     )
 
-
-@Bot.on_callback_query(filters.regex("advHelp"))  # type: ignore
-async def adv_handler_query(_: Bot, query: types.CallbackQuery):
+@Bot.on_callback_query(filters.regex("advHelp"))
+async def adv_handler_query(bot: Bot, query: CallbackQuery):
     await query.edit_message_text(
         FORMAT,
-        reply_markup=types.InlineKeyboardMarkup(
+        reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    types.InlineKeyboardButton("◀️ Back", callback_data="back"),
+                    InlineKeyboardButton("◀️ Back", callback_data="back"),
                 ]
             ]
         ),
-        parse_mode=enums.ParseMode.HTML,
+        parse_mode="html",
     )
 
-
-@Bot.on_callback_query(filters.regex("help"))  # type: ignore
-async def home_handler(_: Bot, query: types.CallbackQuery):
+@Bot.on_callback_query(filters.regex("help"))
+async def home_handler(bot: Bot, query: CallbackQuery):
     await query.answer()
     await query.edit_message_text(
         START_TEXT.format(mention=query.from_user.mention),
-        reply_markup=types.InlineKeyboardMarkup(
+        reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    types.InlineKeyboardButton("🔖 Help", callback_data=f"back"),
-                    types.InlineKeyboardButton(
-                        "🔗 Support", url=Config.SUPPORT_CHAT_URL
-                    ),
+                    InlineKeyboardButton("🔖 Help", callback_data="back"),
+                    InlineKeyboardButton("🔗 Support", url=Config.SUPPORT_CHAT_URL),
                 ]
             ]
         ),
         disable_web_page_preview=True,
     )
 
-
-@Bot.on_message(filters.command("help") & filters.incoming)
+@Bot.on_message(filters.command("help"))
 @is_banned
-async def help_handler(_: Bot, msg: types.Message):
+async def help_handler(bot: Bot, msg: types.Message):
     # Create callback buttons with corresponding strings
     callback_buttons = [
         InlineKeyboardButton("Auto Approve", callback_data="button1"),
@@ -179,4 +172,3 @@ You can use these to mention a user in notes too!
 - <code>{mention}</code>: Mentions the user with their firstname.
 - <code>{id}</code>: The user's ID.
 - <code>{chatname}</code>: The chat's name.""")
-         
