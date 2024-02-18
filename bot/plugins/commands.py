@@ -120,7 +120,7 @@ async def adv_handler_query(_: Bot, query: CallbackQuery):
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("◀️ Back", callback_data="help"),
+                    InlineKeyboardButton("◀️ Back", callback_data="back_home"),
                 ]
             ]
         ),
@@ -136,7 +136,7 @@ async def home_handler(_: Bot, query: CallbackQuery):
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("🔖 Help", callback_data=f"help"),
+                    InlineKeyboardButton("🔖 Help", callback_data=f"advhelp"),
                     InlineKeyboardButton(
                         "🔗 Support", url=Config.SUPPORT_CHAT_URL
                     ),
@@ -147,7 +147,7 @@ async def home_handler(_: Bot, query: CallbackQuery):
     )
 
 
-@Bot.on_message(filters.command("help619") & filters.incoming)  # type: ignore
+@Bot.on_message(filters.command("help") & filters.incoming)  # type: ignore
 @is_banned
 async def help_handler(_: Bot, msg: types.Message):
     await msg.reply(
