@@ -14,6 +14,6 @@ class Config:
   DATABASE_URI = os.environ.get("DATABASE_URI", "mongodb+srv://mdalizadeh16:lavos@cluster0.u21tcwa.mongodb.net/?retryWrites=true&w=majority")
   SESSION_NAME = os.environ.get("DATABASE_NAME", "Aleena")
 
-  LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", -1001931553423))
+  LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", -1002049466903))
   SUDO_USERS = [int(user) for user in (os.environ.get("SUDO_USERS","1137799257")).split()]
   SUPPORT_CHAT_URL = os.environ.get("SUPPORT_CHAT_URL", "https://t.me/subotsupport")
