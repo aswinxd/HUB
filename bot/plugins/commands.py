@@ -96,10 +96,14 @@ async def start_handler(_: Bot, msg: types.Message):
     )
 
 
-@Bot.on_callback_query(filters.regex("bothelp"))  
+@Bot.on_callback_query(filters.regex("bothelp")) 
 async def help_handler_query(bot: Bot, query: CallbackQuery):
-    await query.answer() 
-    await bot.delete_messages(chat_id=query.message.chat.id, message_ids=query.message.message_id)
+    await query.answer()
+
+    try:
+        await bot.delete_messages(chat_id=query.message.chat.id, message_ids=query.message.message_id)
+    except Exception as e:
+        print(f"Failed to delete message: {e}")
     await query.message.reply(
         HELP_TEXT,
         reply_markup=InlineKeyboardMarkup(
