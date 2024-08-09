@@ -96,10 +96,10 @@ async def start_handler(_: Bot, msg: types.Message):
     )
 
 
-@Bot.on_callback_query(filters.regex("bothelp"))  # type: ignore
-async def help_handler_query(_: Bot, query: CallbackQuery):
-    await query.answer()
-    await query.delete_message()
+@Bot.on_callback_query(filters.regex("bothelp"))  
+async def help_handler_query(bot: Bot, query: CallbackQuery):
+    await query.answer() 
+    await bot.delete_messages(chat_id=query.message.chat.id, message_ids=query.message.message_id)
     await query.message.reply(
         HELP_TEXT,
         reply_markup=InlineKeyboardMarkup(
